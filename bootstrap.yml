@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  tasks:
+    - user:
+      name: ansible
+      state: present
+      shell: /bin/bash
+      groups: sudo
+      generate_ssh_key: yes
+        
+...
