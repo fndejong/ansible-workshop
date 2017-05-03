@@ -3,10 +3,12 @@
 - hosts: localhost
   tasks:
     - user:
-      name: ansible
-      state: present
-      shell: /bin/bash
-      groups: sudo
-      generate_ssh_key: yes
+        name: ansible
+        password: "{{ 'ansible' |password_hash('sha512') }}"
+        state: present
+        shell: /bin/bash
+        groups: sudo
+        generate_ssh_key: yes
+      become: true
         
 ...
