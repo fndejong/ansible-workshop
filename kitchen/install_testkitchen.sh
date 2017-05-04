@@ -1,4 +1,6 @@
 #!/bin/bash
+sudo apt-get install rubygems
+sudo apt-get install vagrant
 sudo gem install bundler
 echo "source 'https://rubygems.org'" > Gemfile
 echo "gem 'test-kitchen', '~>1.0'" >> Gemfile
@@ -9,8 +11,8 @@ echo "gem 'serverspec', '~>2.36'" >> Gemfile
 bundle install --path vendor/bundle
 echo "---" > .kitchen.yml
 echo "driver:" >> .kitchen.yml
-echo "  name: vagrant" >> .kitchen.yml
-#echo "  use_sudo: false" >> .kitchen.yml
+echo "  name: docker" >> .kitchen.yml
+echo "  use_sudo: false" >> .kitchen.yml
 echo "provisioner:" >> .kitchen.yml
 echo "  name: ansible_playbook" >> .kitchen.yml
 echo "  playbook: playbook.yml" >> .kitchen.yml

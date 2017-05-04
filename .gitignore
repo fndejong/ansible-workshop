@@ -3,3 +3,9 @@
 
 # Vagrant folder
 .vagrant
+
+# Test kitchen
+.kitchen
+Gemfile*
+.bundle
+vendor
