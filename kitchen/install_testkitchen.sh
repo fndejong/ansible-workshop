@@ -1,6 +1,8 @@
 #!/bin/bash
 sudo apt-get install rubygems
 sudo apt-get install vagrant
+sudo apt-get install docker.io
+
 sudo gem install bundler
 echo "source 'https://rubygems.org'" > Gemfile
 echo "gem 'test-kitchen', '~>1.0'" >> Gemfile

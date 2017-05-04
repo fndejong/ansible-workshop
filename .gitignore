@@ -6,6 +6,8 @@
 
 # Test kitchen
 .kitchen
+.kitchen.yml
 Gemfile*
 .bundle
 vendor
+spec_helper.rb
