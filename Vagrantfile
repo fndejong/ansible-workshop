@@ -4,13 +4,15 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "first8/f8forum-base"
   
-  config.vm.define "master" do |master|
-    master.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.define "controller" do |controller|
+    controller.vm.hostname = "controller"
+    controller.vm.network "private_network", ip: "192.168.33.10"
     
-    master.vm.provider :virtualbox do |vb|
+    controller.vm.provider :virtualbox do |vb|
       vb.name = "controller"
     end
-    master.vm.provision "ansible_local" do |ansible|
+    
+    controller.vm.provision "ansible_local" do |ansible|
       ansible.playbook = 'bootstrap.yml'
       ansible.install_mode = 'pip'
       ansible.version = '2.2.2.0'
@@ -18,6 +20,7 @@ Vagrant.configure("2") do |config|
   end
   
   config.vm.define "web" do |web|
+    web.vm.hostname = "web"
     web.vm.network "private_network", ip: "192.168.33.20"
     
     web.vm.provider :virtualbox do |vb|
@@ -28,6 +31,7 @@ Vagrant.configure("2") do |config|
   end
   
   config.vm.define "database" do |database|
+    database.vm.hostname = "database"
     database.vm.network "private_network", ip: "192.168.33.30"
     
     database.vm.provider :virtualbox do |vb|

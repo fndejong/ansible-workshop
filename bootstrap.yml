@@ -1,6 +1,6 @@
 ---
 
-- hosts: localhost
+- hosts: controller
   tasks:
     - user:
         name: ansible
@@ -10,5 +10,9 @@
         groups: sudo
         generate_ssh_key: yes
       become: true
-        
+      
+    - apt:
+        name: sshpass
+        state: present
+      become: true
 ...
