@@ -1,0 +1,54 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+#    - name: add docker apt repository
+#      apt_repository:
+#        repo: "https://download.docker.com/linux/debian jessie stable"
+#        state: present
+#    - apt_key:
+#        url: "https://download.docker.com/linux/debian/gpg"
+#        state: present
+#    - 
+#      apt: name=build-essential state=installed
+#    - name: Install virtualbox
+#      apt: 
+#        name: virtualbox-5.1
+#        state: present
+    - name: install ruby gems
+      apt: name=rubygems state=installed
+    - name: Install vagrant
+      apt: name=vagrant state=installed
+    - name: Install bundler 
+      gem: name=bundler state=present
+    - name: Create kitchen directory /kitchen
+      file:
+        path: /kitchen
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: 0755
+    - name: Copy gem file 
+      copy:
+        src: Gemfile
+        dest: /kitchen/Gemfile
+    - name: Copy .kitchen.yml file
+      copy:
+        src: .kitchen.yml
+        dest: /kitchen/.kitchen.yml
+    - name: install ruby gems with bundler
+      bundler:   
+        state: present
+        chdir: /kitchen
+        gem_path: vendor/bundle 
+    - name: Create serverspec directory path
+      file:
+        path: /kitchen/test/integration/default/serverspec
+        state: directory
+        mode: 0755
+    - name: Copy spec_helper into serverspec dir
+      copy:
+        src: spec_helper.rb
+        dest: /kitchen/test/integration/default/serverspec/spec_helper.rb
+    - name: Change ownership of all files in /kitchen  
+      file: dest=/kitchen owner=vagrant group=vagrant mode=0775 recurse=yes

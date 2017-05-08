@@ -1,5 +1,21 @@
 ---
 - hosts: all
+  sudo: yes
   tasks:
     - apt: name=nginx state=installed
     - service: name=nginx state=restarted
+    - group:
+        name: foo
+        state: present
+    - user:
+        name: foo
+        shell: /bin/bash
+        groups: foo
+        append: yes
+    - name: copy foo  
+      copy:
+        src: /home/dennis/Projects/ansible/ansible-workshop/kitchen/foo.conf
+        dest: ~/foo.conf
+        owner: foo
+        group: foo
+        mode: "u=rw,g=r,o=r"
