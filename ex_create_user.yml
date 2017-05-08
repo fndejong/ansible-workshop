@@ -1,0 +1,15 @@
+---
+
+- hosts: web, database # Hosts om dit playbook op uit te voeren (moeten bekend zijn in de Ansible inventory)
+  tasks:               
+    - user:            # De module om uit te voeren
+        name: ansible
+        password: "{{ 'ansible' |password_hash('sha512', 'ansible-workshop-salt') }}"
+        state: present # Geeft aan dat Ansible deze gebruiker aan moet maken, als deze nog niet bestaat
+        shell: /bin/bash
+      become: true     # Er zijn root-rechten (sudo etc.) nodig om deze module uiot te voeren
+      
+...
+
+# name: Ensure the existence of the user 'ansible'
+ 
