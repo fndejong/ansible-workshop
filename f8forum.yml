@@ -1,0 +1,22 @@
+---
+
+- hosts: web, database
+  tasks:
+    - name: Ensure the existence of the user 'ansible'
+      user:
+        name: ansible
+        password: "{{ 'ansible' |password_hash('sha512', 'ansible-workshop-salt') }}"
+        state: present
+        groups: sudo
+        shell: /bin/bash
+      become: true
+   
+    - name: Set authorized key for user 'ansible'
+      authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+      become: true
+   
+...
+ 
