@@ -7,6 +7,7 @@
         password: "{{ 'ansible' |password_hash('sha512', 'ansible-workshop-salt') }}"
         state: present # Geeft aan dat Ansible deze gebruiker aan moet maken, als deze nog niet bestaat
         shell: /bin/bash
+        groups: sudo
       become: true     # Er zijn root-rechten (sudo etc.) nodig om deze module uiot te voeren
       
 ...
