@@ -29,7 +29,7 @@
       line: "host  all  all   all   md5"
   - service:
       name: postgresql
-      state: restarted
+      state: reloaded
 
 - hosts: database
   become: true
