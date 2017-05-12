@@ -1,0 +1,47 @@
+---
+
+- hosts: web
+  tasks: 
+  - name: Register Debian Jessie backports, necessary for downloading Java 8 OpenJDK installation
+    apt_repository:
+      repo: deb http://ftp.de.debian.org/debian jessie-backports main
+      state: present
+    become: true
+  - name: Install Java 8 JDK
+    apt: 
+      name: openjdk-8-jdk
+      default_release: jessie-backports
+      state: present
+      cache_valid_time: 3600
+      update_cache: yes
+    become: true
+  - name: Create webapp directory path
+    file:
+      path: /opt/f8forum
+      state: directory
+      mode: 0755
+    become: true
+  - name: Copy jar to target host
+    copy: 
+      src: f8forum.jar 
+      dest: /opt/f8forum/f8forum.jar 
+      mode: 0755 
+    become: true
+  - name: Copy startscript to target host
+    copy: 
+      src: start.sh
+      dest: /opt/f8forum/start.sh 
+      mode: 0755 
+    become: true
+  - command: "/opt/f8forum/start.sh &"
+#    async: 45
+#    poll: 0
+  - copy:
+      src: f8forum_startscript
+      dest: /etc/init.d/f8forum
+      mode: 0751 
+    become: true
+  - command: "update-rc.d f8forum defaults"
+    args:
+      creates: /etc/rc5.d/*f8forum
+    become: true
