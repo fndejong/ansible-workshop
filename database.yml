@@ -2,10 +2,6 @@
 - hosts: database
   become: true
   tasks:
-  - name: Install https transport
-    apt: 
-      name: apt-transport-https
-      state: installed
   - name: Install apt repository
     apt_repository:
       repo: deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main
@@ -24,6 +20,17 @@
       - libpq-dev
       - python-psycopg2
       - postgresql-9.5
+  - lineinfile:
+      dest: /etc/postgresql/9.5/main/postgresql.conf
+      regexp: '^#listen_addresses(.*)'
+      line: "listen_addresses = '*'"
+  - lineinfile:
+      dest: /etc/postgresql/9.5/main/pg_hba.conf
+      line: "host  all  all   all   md5"
+  - service:
+      name: postgresql
+      state: restarted
+
 - hosts: database
   become: true
   become_user: postgres
