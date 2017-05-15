@@ -37,6 +37,7 @@ Vagrant.configure("2") do |config|
     database.vm.provider :virtualbox do |vb|
       vb.name = "database"
     end
+    database.vm.network "forwarded_port", guest: 5432, host: 2345
   end
 	
 
