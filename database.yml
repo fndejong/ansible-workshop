@@ -22,12 +22,17 @@
       - postgresql-9.5
   - lineinfile:
       dest: /etc/postgresql/9.5/main/postgresql.conf
-      regexp: '^#listen_addresses(.*)'
+      regexp: '^listen_addresses'
+      insertafter: '^#listen_addresses'
       line: "listen_addresses = '*'"
+    notify: restart postgres
   - lineinfile:
       dest: /etc/postgresql/9.5/main/pg_hba.conf
       line: "host  all  all   all   md5"
-  - service:
+    notify: restart postgres
+  handlers: 
+   - name: restart postgres
+     service:
       name: postgresql
       state: reloaded
 
