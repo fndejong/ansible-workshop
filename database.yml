@@ -37,7 +37,7 @@
    - name: restart postgres
      service:
       name: postgresql
-      state: reloaded
+      state: restarted
 
 - hosts: database
   become: true
