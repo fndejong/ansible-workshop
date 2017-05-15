@@ -33,9 +33,14 @@
       dest: /opt/f8forum/start.sh 
       mode: 0755 
     become: true
-  - command: "/opt/f8forum/start.sh &"
-#    async: 45
-#    poll: 0
+  - name: Look for the f8forum process
+    shell: ps -ef |  grep f8forum | grep -v grep | cat
+    register: process_list
+    changed_when: false  
+
+  - name: Start "f8forum" if needed
+    shell: /opt/f8forum/start.sh &
+    when: "process_list.stdout.find('f8forum') == -1"
   - copy:
       src: f8forum_startscript
       dest: /etc/init.d/f8forum
