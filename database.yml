@@ -31,7 +31,7 @@
     notify: restart postgres
   - lineinfile:
       dest: /etc/postgresql/9.5/main/pg_hba.conf
-      line: "host  all  all   all   md5"
+      line: "host  all  all  192.168.33.20/24  md5"
     notify: restart postgres
   handlers: 
    - name: restart postgres
@@ -46,7 +46,7 @@
   vars:
     dbname: f8forum_db
     dbuser: f8forum_user
-    dbpassword: mysupersecretpassword
+    dbpassword: f8forum_user
 
   tasks:
   - name: ensure database is created
